@@ -8,7 +8,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 
 import java.util.Map;
 
-public class JWTUtils {
+public class JwtUtils {
 
     protected static JWTVerifier jwtVerifier = null;
 

@@ -5,7 +5,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.HexFormat;
 
-public class MD5Utils {
+public class Md5Utils {
 
     protected static MessageDigest md = null;
 
@@ -14,7 +14,7 @@ public class MD5Utils {
         try {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
-            System.err.println(MD5Utils.class.getName() + "初始化失败");
+            System.err.println(Md5Utils.class.getName() + "初始化失败");
             e.printStackTrace();
         }
     }

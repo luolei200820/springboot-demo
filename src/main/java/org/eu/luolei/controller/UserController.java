@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import org.eu.luolei.pojo.Result;
 import org.eu.luolei.pojo.User;
 import org.eu.luolei.service.UserService;
-import org.eu.luolei.utils.MD5Utils;
+import org.eu.luolei.utils.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,7 +41,7 @@ public class UserController {
     public Result<String> login(@Pattern(regexp = "^\\S{5,16}$") String username,
                                 @Pattern(regexp = "^\\S{5,16}$") String password) {
         User u = userService.findByUsername(username);
-        if (u != null && MD5Utils.encode(password).equals(u.getPassword())) {
+        if (u != null && Md5Utils.encode(password).equals(u.getPassword())) {
             // algorithm
             Algorithm algorithm = Algorithm.HMAC256("123456");
 

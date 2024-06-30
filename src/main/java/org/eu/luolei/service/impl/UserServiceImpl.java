@@ -3,7 +3,7 @@ package org.eu.luolei.service.impl;
 import org.eu.luolei.mapper.UserMapper;
 import org.eu.luolei.pojo.User;
 import org.eu.luolei.service.UserService;
-import org.eu.luolei.utils.MD5Utils;
+import org.eu.luolei.utils.Md5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void register(String username, String password) {
-        String encryptedPassword = MD5Utils.encode(password);
+        String encryptedPassword = Md5Utils.encode(password);
         userMapper.add(username,encryptedPassword);
     }
 }
