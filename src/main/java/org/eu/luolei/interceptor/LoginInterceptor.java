@@ -17,7 +17,7 @@ public class LoginInterceptor implements HandlerInterceptor {
         // 令牌验证
         String token = request.getHeader("Authorization");
         try{
-            Map<String, Claim> claims = JwtUtils.parseToken(token);
+            JwtUtils.parseToken(token);
             // 放行
             return true;
         }catch (Exception e){
