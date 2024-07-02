@@ -6,6 +6,7 @@ import org.eu.luolei.pojo.User;
 import org.eu.luolei.service.UserService;
 import org.eu.luolei.utils.JwtUtils;
 import org.eu.luolei.utils.Md5Utils;
+import org.eu.luolei.utils.ThreadLocalUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -51,8 +52,8 @@ public class UserController {
     }
 
     @GetMapping("/userInfo")
-    public Result<User> userInfo(@RequestHeader(name = "Authorization") String token) {
-        Map<String, Object> claims = JwtUtils.parseToken(token);
+    public Result<User> userInfo() {
+        Map<String, Object> claims = ThreadLocalUtils.get();
         String username = (String) claims.get("username");
         User u = userService.findByUsername(username);
         return Result.success(u);
