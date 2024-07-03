@@ -9,6 +9,7 @@ import org.eu.luolei.utils.Md5Utils;
 import org.eu.luolei.utils.ThreadLocalUtils;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,8 +68,35 @@ public class UserController {
     }
 
     @PatchMapping("/updateAvatar")
-    public Result updateAvatar(@RequestParam @URL String avatarUrl){
+    public Result updateAvatar(@RequestParam @URL String avatarUrl) {
         userService.updateAvatar(avatarUrl);
+        return Result.success();
+    }
+
+    @PatchMapping("updatePwd")
+    public Result updatePwd(@RequestBody Map<String, String> params) {
+        String oldPwd = params.get("old_pwd");
+        String newPwd = params.get("new_pwd");
+        String rePwd = params.get("re_pwd");
+
+        if (!StringUtils.hasLength(oldPwd) || !StringUtils.hasLength(newPwd) || !StringUtils.hasLength(rePwd)) {
+            return Result.error("缺少必要的参数");
+        }
+
+        // 比对原密码是否相符
+        Map<String, Object> claims = ThreadLocalUtils.get();
+        String username = (String) claims.get("username");
+        User user = userService.findByUsername(username);
+        if (!user.getPassword().equals(Md5Utils.encode(oldPwd))) {
+            return Result.error("原密码不正确");
+        }
+
+        // 判断两次输入的新密码是否一样
+        if (!newPwd.equals(rePwd)) {
+            return Result.error("两次输入的新密码不一样");
+        }
+
+        userService.updatePwd(newPwd);
         return Result.success();
     }
 }
