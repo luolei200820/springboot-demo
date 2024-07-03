@@ -7,6 +7,7 @@ import org.eu.luolei.service.UserService;
 import org.eu.luolei.utils.JwtUtils;
 import org.eu.luolei.utils.Md5Utils;
 import org.eu.luolei.utils.ThreadLocalUtils;
+import org.hibernate.validator.constraints.URL;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +58,17 @@ public class UserController {
         String username = (String) claims.get("username");
         User u = userService.findByUsername(username);
         return Result.success(u);
+    }
+
+    @PutMapping("/update")
+    public Result update(@RequestBody @Validated User user) {
+        userService.update(user);
+        return Result.success();
+    }
+
+    @PatchMapping("/updateAvatar")
+    public Result updateAvatar(@RequestParam @URL String avatarUrl){
+        userService.updateAvatar(avatarUrl);
+        return Result.success();
     }
 }
